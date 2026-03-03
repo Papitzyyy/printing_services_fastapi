@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papiprints - Student Printing Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: Arial, sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        button {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background: #f5f5f5;
+            color: #666;
+            border: 2px solid transparent;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 0;
+        }
+
+        .tab-button:hover {
+            background: #efefef;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            border-left: 5px solid;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .message.info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+
+        .message h3 {
+            margin-top: 0;
+        }
+
+        .message p {
+            margin: 5px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .cost-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .action-button {
+            padding: 8px 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .action-button:hover {
+            background: #218838;
+        }
+
+        .search-box {
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            margin-bottom: 10px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            h2 {
+                font-size: 1.3em;
+            }
+
+            .tab-buttons {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+                border-radius: 8px;
+            }
+
+            button {
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖨️ Papiprints</h1>
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">Campus Printing Services Portal</p>
+
+        <!-- Tab Navigation -->
+        <div class="tab-buttons">
+            <button class="tab-button active" onclick="switchTab(event, 'submit')">📝 Submit Order</button>
+            <button class="tab-button" onclick="switchTab(event, 'history')">📋 My Orders</button>
+            <button class="tab-button" onclick="switchTab(event, 'admin')">⚙️ Admin Panel</button>
+        </div>
+
+        <!-- TAB 1: Submit Order -->
+        <div id="submit" class="tab-content active">
+            <h2>Submit New Print Order</h2>
+
+            <div class="form-group">
+                <label>👤 Student ID:</label>
+                <input type="text" id="userId" placeholder="e.g. student_001" />
+            </div>
+
+            <div class="form-group">
+                <label>📄 Number of Pages:</label>
+                <input type="number" id="pages" placeholder="e.g. 10" min="1" />
+            </div>
+
+            <div class="form-group">
+                <label>🎨 Print Type:</label>
+                <select id="printType" onchange="calculateCost()">
+                    <option value="black_white">🖤 Black & White (PHP 2.00/page)</option>
+                    <option value="colored">🌈 Colored (PHP 5.00/page)</option>
+                    <option value="photo">📸 Photo Paper (PHP 20.00/page)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>📎 Filename (optional):</label>
+                <input type="text" id="filename" placeholder="e.g. assignment.pdf" />
+            </div>
+
+            <div class="cost-display">
+                Estimated Cost: <span id="costDisplay">PHP 0.00</span>
+            </div>
+
+            <button onclick="submitOrder()">🚀 Submit Order</button>
+
+            <div id="submitResult" class="message"></div>
+        </div>
+
+        <!-- TAB 2: My Orders (History) -->
+        <div id="history" class="tab-content">
+            <h2>My Print Orders</h2>
+
+            <div class="search-box">
+                <label>🔍 Enter Student ID:</label>
+                <input type="text" id="studentIdForHistory" placeholder="e.g. student_001" />
+                <button onclick="fetchStudentOrders()">Search Orders</button>
+            </div>
+
+            <div id="ordersTable"></div>
+            <div id="historyResult" class="message"></div>
+        </div>
+
+        <!-- TAB 3: Admin View -->
+        <div id="admin" class="tab-content">
+            <h2>Admin - All Print Orders</h2>
+
+            <button onclick="fetchAllOrders()">🔄 Refresh All Orders</button>
+
+            <div id="adminTable"></div>
+            <div id="adminResult" class="message"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://127.0.0.1:8000';
+
+        const PRICES = {
+            'black_white': 2.0,
+            'colored': 5.0,
+            'photo': 20.0
+        };
+
+        // Tab Switching
+        function switchTab(event, tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Highlight button
+            event.target.classList.add('active');
+        }
+
+        // Calculate cost in real-time
+        function calculateCost() {
+            const pages = parseInt(document.getElementById('pages').value) || 0;
+            const printType = document.getElementById('printType').value;
+            const price = PRICES[printType];
+            const totalCost = pages * price;
+            document.getElementById('costDisplay').innerText = `PHP ${totalCost.toFixed(2)}`;
+        }
+
+        // Add listener for pages input
+        document.getElementById('pages').addEventListener('input', calculateCost);
+
+        // Submit New Order
+        async function submitOrder() {
+            const userId = document.getElementById('userId').value.trim();
+            const pages = parseInt(document.getElementById('pages').value);
+            const printType = document.getElementById('printType').value;
+            const filename = document.getElementById('filename').value.trim();
+
+            if (!userId || !pages) {
+                showMessage('submitResult', 'error', '❌ Please fill in Student ID and Pages');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/orders`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        pages: pages,
+                        print_type: printType,
+                        filename: filename || null
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('submitResult', 'success', `
+                        <h3>✅ Order Created Successfully!</h3>
+                        <p><strong>Order ID:</strong> <code>${data.id}</code></p>
+                        <p><strong>Student:</strong> ${data.user_id}</p>
+                        <p><strong>Pages:</strong> ${data.pages}</p>
+                        <p><strong>Print Type:</strong> ${data.print_type.replace('_', ' ').toUpperCase()}</p>
+                        <p><strong>Total Cost:</strong> <strong>PHP ${data.cost.toFixed(2)}</strong></p>
+                        <p><strong>Status:</strong> ${data.status}</p>
+                        <p><strong>Created:</strong> ${new Date(data.created_at).toLocaleString()}</p>
+                    `);
+                    // Clear form
+                    document.getElementById('userId').value = '';
+                    document.getElementById('pages').value = '';
+                    document.getElementById('filename').value = '';
+                    calculateCost();
+                } else {
+                    showMessage('submitResult', 'error', `❌ Error: ${data.detail || 'Unknown error'}`);
+                }
+            } catch (error) {
+                showMessage('submitResult', 'error', `❌ Connection Error: ${error.message}<br>Make sure the backend is running at ${API_URL}`);
+            }
+        }
+
+        // Fetch Student Orders
+        async function fetchStudentOrders() {
+            const studentId = document.getElementById('studentIdForHistory').value.trim();
+            if (!studentId) {
+                showMessage('historyResult', 'error', '❌ Please enter a Student ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/users/${studentId}/orders`);
+                const orders = await response.json();
+
+                if (Array.isArray(orders) && orders.length > 0) {
+                    let tableHTML = '<table><tr><th>Order ID</th><th>Pages</th><th>Type</th><th>Cost (PHP)</th><th>Status</th><th>Created</th></tr>';
+                    orders.forEach(order => {
+                        const statusColor = order.status === 'completed' ? '#d4edda' : '#fff3cd';
+                        tableHTML += `<tr style="background-color: ${statusColor}">
+                            <td><code>${order.id.substring(0, 8)}...</code></td>
+                            <td>${order.pages}</td>
+                            <td>${order.print_type.replace('_', ' ')}</td>
+                            <td><strong>PHP ${order.cost.toFixed(2)}</strong></td>
+                            <td><strong>${order.status}</strong></td>
+                            <td>${new Date(order.created_at).toLocaleDateString()}</td>
+                        </tr>`;
+                    });
+                    tableHTML += '</table>';
+                    document.getElementById('ordersTable').innerHTML = tableHTML;
+                    showMessage('historyResult', 'success', `✅ Found ${orders.length} order(s) for ${studentId}`);
+                } else {
+                    document.getElementById('ordersTable').innerHTML = '<div class="no-data">No orders found for this student</div>';
+                    showMessage('historyResult', 'info', 'ℹ️ This student has not submitted any orders yet.');
+                }
+            } catch (error) {
+                showMessage('historyResult', 'error', `❌ Error: ${error.message}`);
+            }
+        }
+
+        // Fetch All Orders (Admin)
+        async function fetchAllOrders() {
+            try {
+                const response = await fetch(`${API_URL}/orders`);
+                const orders = await response.json();
+
+                if (Array.isArray(orders) && orders.length > 0) {
+                    let tableHTML = '<table><tr><th>Student</th><th>Pages</th><th>Type</th><th>Cost (PHP)</th><th>Status</th><th>Created</th><th>Action</th></tr>';
+                    orders.forEach(order => {
+                        const statusColor = order.status === 'completed' ? '#d4edda' : '#fff3cd';
+                        tableHTML += `<tr style="background-color: ${statusColor}">
+                            <td><strong>${order.user_id}</strong></td>
+                            <td>${order.pages}</td>
+                            <td>${order.print_type.replace('_', ' ')}</td>
+                            <td><strong>PHP ${order.cost.toFixed(2)}</strong></td>
+                            <td><span style="padding: 5px 10px; background: ${order.status === 'completed' ? '#28a745' : '#ffc107'}; color: white; border-radius: 5px;">${order.status}</span></td>
+                            <td>${new Date(order.created_at).toLocaleDateString()}</td>
+                            <td>
+                                ${order.status !== 'completed' ? `<button class="action-button" onclick="updateOrderStatus('${order.id}')">✓ Mark Done</button>` : '<span style="color: #28a745;">✓ Done</span>'}
+                            </td>
+                        </tr>`;
+                    });
+                    tableHTML += '</table>';
+                    document.getElementById('adminTable').innerHTML = tableHTML;
+                    showMessage('adminResult', 'success', `✅ Total orders: ${orders.length}`);
+                } else {
+                    document.getElementById('adminTable').innerHTML = '<div class="no-data">No orders in system yet</div>';
+                }
+            } catch (error) {
+                showMessage('adminResult', 'error', `❌ Error: ${error.message}`);
+            }
+        }
+
+        // Update Order Status (Admin)
+        async function updateOrderStatus(orderId) {
+            try {
+                const response = await fetch(`${API_URL}/orders/${orderId}/status`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ status: 'completed' })
+                });
+
+                if (response.ok) {
+                    showMessage('adminResult', 'success', '✅ Order marked as completed!');
+                    fetchAllOrders();
+                } else {
+                    showMessage('adminResult', 'error', '❌ Failed to update order');
+                }
+            } catch (error) {
+                showMessage('adminResult', 'error', `❌ Error: ${error.message}`);
+            }
+        }
+
+        // Helper function to show messages
+        function showMessage(elementId, type, message) {
+            const messageEl = document.getElementById(elementId);
+            messageEl.className = `message show ${type}`;
+            messageEl.innerHTML = message;
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            calculateCost();
+        });
+    </script>
+</body>
+</html>

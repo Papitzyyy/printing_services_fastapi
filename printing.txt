@@ -1,0 +1,31 @@
+Product Reqiurement Systtem
+
+Papiprints: A Printing Services System
+1. Project Overvlew 
+Papiprints is a backend web application that uses FastAPI to control student printing services. The system offers a high performance API for submitting print orders, keeping order history for administrators and students to easily access, and computing charges depending on document properties.
+2. Problem Statement
+The current printing process is a major headache for everyone on campus. Students waste time in long lines, and staff struggle to keep up with manual tasks, leading to a stressful and disorganized environment.
+	Pricing Confusion: Manual calculations often lead to different prices for the same causing 	frustration.
+	The "Waiting Game": Without a digital queue, students are forced to stand in line just to submit 	a file.
+	Lost Tracks: There is no digital paper trail, making it impossible for students to see what they’ve    	spent or for staff to manage orders.
+	Workload Stress: Handling dozens of physical requests at once without a system makes it easy 	for jobs to get lost or delayed.
+
+3. Objectives
+The main goal of Papiprints is to make campus printing as fast and painless as possible through a smart, digital backend.
+	Automate Pricing: Calculate costs instantly so there’s no guesswork or overcharging.
+	Reduce Wait Times: Allow students to submit print jobs digitally to cut down on physical 	queues.
+	Digital Records: Keep a clear, searchable history of every order for both students and staff.
+	Simplify Workflow: Organize all incoming print requests into a single, manageable digital list.
+
+4. Users
+Since Papiprints is a FastAPI-driven system, it serves two distinct groups with different needs.
+	Students: The primary customers who upload document details, select print options, and track 	their order costs.
+	Printing Staff/Admins: The operators who manage the incoming digital queue, update order 	statuses, and verify payments.
+
+
+
+Printing Prices:
+• Black & White: PHP 2.00/page
+• Colored:
+PHP 5.00/page
+• Photo Paper: PHP 20.00/page

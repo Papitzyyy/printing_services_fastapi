@@ -1,8 +1,11 @@
-Product Reqiurement Systtem
+Product Reqiurement System
 
 Papiprints: A Printing Services System
+Github Repository Link: https://github.com/Papitzyyy/printing_services_fastapi
+
 1. Project Overvlew 
 Papiprints is a backend web application that uses FastAPI to control student printing services. The system offers a high performance API for submitting print orders, keeping order history for administrators and students to easily access, and computing charges depending on document properties.
+
 2. Problem Statement
 The current printing process is a major headache for everyone on campus. Students waste time in long lines, and staff struggle to keep up with manual tasks, leading to a stressful and disorganized environment.
 	Pricing Confusion: Manual calculations often lead to different prices for the same causing 	frustration.
@@ -21,8 +24,6 @@ The main goal of Papiprints is to make campus printing as fast and painless as p
 Since Papiprints is a FastAPI-driven system, it serves two distinct groups with different needs.
 	Students: The primary customers who upload document details, select print options, and track 	their order costs.
 	Printing Staff/Admins: The operators who manage the incoming digital queue, update order 	statuses, and verify payments.
-
-
 
 Printing Prices:
 • Black & White: PHP 2.00/page
